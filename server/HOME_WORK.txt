@@ -1,0 +1,88 @@
+// HW:- How to schedule the deltion process of the account.
+
+// TODO:HW make the enroll count student less when account is deleted.
+
+Find that what is CheckSum.
+
+
+		// get Top Selling Courses
+		// Above last is HW
+
+
+app.use(
+    cors({
+        origin:"http://localhost:3000",
+        credentials:true,//Seach about It HW
+    })
+)
+
+
+         //HW Search this line.
+        // console.log(recentOTP);  in signup controller in Auth
+
+        ----------------------
+
+
+        exports.updateDisplayPicture = async (req, res) => {
+    try {
+      const displayPicture = req.files.displayPicture
+      const userId = req.user.id
+      const image = await uploadImageToCloudinary(
+        displayPicture,
+        process.env.FOLDER_NAME,
+        1000,//Search About this HW----------------------------------------------
+        1000
+      )
+      console.log(image)
+      const updatedProfile = await User.findByIdAndUpdate(
+        { _id: userId },
+        { image: image.secure_url },
+        { new: true }
+      )
+      res.send({
+        success: true,
+        message: `Image Updated successfully`,
+        data: updatedProfile,
+      })
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: `Error:->,${error.message}`,
+      })
+    }
+};
+
+---------------------------------------------------------------
+
+exports.deleteSection = async (req,res)=>{
+    try {
+        // Fetch Id Of section which you want to delete :-
+        // assumig that we are sending ID in params:-
+        console.log("first")
+        const { sectionId,courseId } = req.params;
+
+
+
+---------------------------------------------------------------
+updateSubSection
+---------------------------------------------------------------
+deleteSubSection
+---------------------------------------------------------------
+deleteCourse
+
+
+
+
+
+
+------------------------------
+ <TypeAnimation className={`${codeColor} w-[90%] flex flex-col  `}
+        sequence={[codeBlock,3000,""]}
+        repeat={Infinity}
+        cursor={true}
+        style={
+            {
+                whiteSpace:"pre-line",
+                display:"block",------------------------------HW
+            }
+        }
