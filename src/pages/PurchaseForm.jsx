@@ -147,7 +147,7 @@
 // -----------------------------------------------------------------
 import React from 'react';
 import ImageButedCar from '../data/Images/R.jpeg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVerificationDetails_Slice } from '../slices/VerificationDetails_Slice'; // Replace with the correct path
 import { useForm } from 'react-hook-form';
@@ -158,17 +158,19 @@ const PurchaseForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const {token} = useSelector( (state) => state.auth );
   
+  const { id } = useParams();
   const onSubmit = (data) => {
     const formData = new FormData()
     console.log("token",token)
-    formData.append("Name", data.aadharCard)
-    formData.append("Price", data.drivingLicence)
-    formData.append("Type", data.photograph)
-    formData.append("Description", data.phoneNumber[0])
-    console.log("HHHHHHHHHHHHHHHHH",data.phoneNumber[0]);
+    formData.append("aadharCard", data.aadharCard[0])
+    formData.append("drivingLicence", data.drivingLicence[0])
+    formData.append("photograph", data.photograph[0])
+    formData.append("phoneNumber", data.phoneNumber)
+    console.log("HHHHHHHHHHHHHHHHH",data.phoneNumber);
     // Dispatch the form data to Redux
     dispatch(setVerificationDetails_Slice(formData));
-    dispatch(verifyDocument(formData,navigate))
+    console.log("FFFFFFFFFFFFFFFFFFFDDDDDDDDDDDDD",formData)
+    dispatch(verifyDocument(formData,navigate,id))
     // dispatch(verifyDocument(data));
     // Add the rest of your logic here
   };

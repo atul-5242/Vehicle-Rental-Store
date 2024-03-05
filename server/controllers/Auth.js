@@ -1,11 +1,12 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
-const Profile = require("../models/Profile");
+const Profile = require("../models/VerificationDetails");
 const bcrypt=require("bcrypt");
 const otpGenerator=require("otp-generator");
 const jwt = require("jsonwebtoken");    
 require("dotenv").config(); 
 // const nodemailer = require('nodemailer'); // You also need the nodemailer library to send email notifications.
+
 
 
 // send OTP:-
@@ -141,12 +142,11 @@ exports.signUp = async (req,res)=>{
         // Hashed Password:-
         const hashedPassword=await bcrypt.hash(password,10);
         const profileDetails = await Profile.create({
-            gender:null,
-            dateOfBirth:null,
-            about:null,
-            contactNumber:null,
+            aadharCard:"",
+            drivingLicence:"",
+            photograph:"",
+            phoneNumber:"",
         });
-        console.log("Here no error:->")
 
         // entry created in DB:-
         const user = await  User.create({
@@ -246,6 +246,7 @@ exports.login = async (req,res) =>{
 exports.changePassword = async (req, res) => {
 	try {
 		// Get user data from req.user
+        console.log("Change Password time id",req.user.id)
 		const userDetails = await User.findById(req.user.id);
 
 		// Get old password, new password, and confirm new password from req.body

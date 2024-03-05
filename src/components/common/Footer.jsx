@@ -1,7 +1,7 @@
 import React from 'react'
 import { FooterLink2 } from '../../data/footer-links'
 import { Link } from 'react-router-dom'
-import MainImage from '../../assets/Logo/Logo-Full-Light.png'
+
 import google from '../../assets/footer-logo/Google.png'
 import facebook from '../../assets/footer-logo/Facebook.png'
 import twitter from '../../assets/footer-logo/Twitter.png'
@@ -14,7 +14,7 @@ const Footer = () => {
                 {/* 1 */}
                 <div className='flex flex-col gap-2'>
                     {/* Image */}
-                    <div><img src={MainImage} alt="H" /></div>
+                    
                     <div className='font-bold text-richblack-50'>Company</div>
                     <div className='text-richblack-500 '>About</div>
                     <div className='text-richblack-500 '>Careers</div>
