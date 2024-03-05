@@ -98,12 +98,25 @@ router.get('/get_A_Vehical', async (req, res) => {
 // Vehical Document Verification
 router.post('/docVerifycreate', async (req, res) => {
   try {
-    const { aadharCard, drivingLicence, photograph, phoneNumber } = req.body;
+    const aadharCard=req.files.aadharCard
+    const drivingLicence=req.files.drivingLicence;
+    const photograph=req.files.photograph
+    const phoneNumber=req.body.phoneNumber;
+    console.log("first",req.body.phoneNumber)
+
+
+
+     // file formate is supported.
+     const response_aadharCard =  await uploadFiletoCloudinary(aadharCard,"codehelp");
+     const response_drivingLicence =  await uploadFiletoCloudinary(drivingLicence,"codehelp");
+     const response_photograph =  await uploadFiletoCloudinary(photograph,"codehelp");
+     
+    // const { aadharCard, drivingLicence, photograph, phoneNumber } = req.body;
     const newVerification = new Verification({
-      aadharCard,
-      drivingLicence,
-      photograph,
-      phoneNumber,
+      aadharCard:response_aadharCard.secure_url,
+      drivingLicence:response_drivingLicence.secure_url,
+      photograph:response_photograph.secure_url,
+      phoneNumber:phoneNumber,
     });
 
     const savedVerification = await newVerification.save();

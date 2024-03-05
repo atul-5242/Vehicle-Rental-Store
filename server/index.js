@@ -3,7 +3,7 @@ const app = express();
 
 const userRoute = require("./routes/User");
 const paymentRoute = require("./routes/Payments");
-const profileRoute = require("./routes/Profile");
+
 const VehicalRoute = require('./routes/Vehical');
 // const courseRoute = require("./routes/Coures");
 
@@ -45,7 +45,7 @@ cloudnairyConnect();
 
 app.use("/api/v1/auth",userRoute)
 app.use("/api/v1/payment",paymentRoute)
-app.use("/api/v1/profile",profileRoute)
+
 app.use("/api/v1/Vehical",VehicalRoute)
 // app.use("/api/v1/course",courseRoute)
 

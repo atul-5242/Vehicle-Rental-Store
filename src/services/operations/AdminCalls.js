@@ -1,7 +1,8 @@
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiconnector"
 import { VehicalDataEndPoints ,VehicalDocVerification } from "../apis";
-
+import { setdataOfVehical } from "../../slices/ItemSlice";
+import {setAdditionalDetails} from '../../slices/authSlice';
 export const createvehical = (data,token) => {
     console.log("The data is here:",data);
     return async () => {
@@ -32,14 +33,16 @@ export const createvehical = (data,token) => {
 
 
 export const getAllVehical = () => {
+  
     return async (dispatch) => {
       const toastId = toast.loading("Fetching Vehicals...");
       try {
-        // consol
+        // console
         const response = await apiConnector("GET", VehicalDataEndPoints.VEHICAL_READ);
   
         console.log("GET ALL VEHICALS API RESPONSE............", response);
-  
+        sessionStorage.setItem("dataOfVehical", JSON.stringify(response));
+        // dispatch(setdataOfVehical(response));
         if (!response.data.success) {
           throw new Error(response.data.message);
         }
@@ -86,9 +89,10 @@ export const get_A_Vehical = (id) => {
     };
   };
 
-  export const verifyDocument = (verificationData,navigate) => {
+  export const verifyDocument = (verificationData,navigate,id) => {
     return async (dispatch) => {
       const toastId = toast.loading("Verifying Documents...");
+      console.log("QQQQQQQQQQQQQQQQQQ:",verificationData)
       try {
         const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API, verificationData);
   
@@ -100,7 +104,9 @@ export const get_A_Vehical = (id) => {
   
         toast.success("Document Verification Successful");
         // You can dispatch additional actions if needed
-        navigate('/MainPaymentPage')
+        
+        navigate(`/MainPaymentPage/${id}`)
+        setAdditionalDetails(true);
         toast.dismiss(toastId);
         return response;
   
@@ -111,3 +117,5 @@ export const get_A_Vehical = (id) => {
       toast.dismiss(toastId);
     };
   };
+
+

@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { TiArrowRight } from "react-icons/ti";
 import image12 from '../data/Images/R.jpeg'
 import Footer from "../components/common/Footer";
-import InstructorSection from "../components/cores/HomePage/InstructorSection";
-import ExploreSection from "../components/cores/HomePage/ExploreSection";
+import { useDispatch, useSelector } from 'react-redux';
+
+
 import Video from "../pages/BUGATTI_CENTODIECI_at_the_Wind_Tunnel.mp4";
 // import h from '../assets/Images/bghome.svg'
 const Home = () => {
@@ -19,16 +20,18 @@ const Home = () => {
     WebkitBackgroundClip: "text",
     color: "transparent",
   };
-
+  const {ishover} = useSelector( (state) => state.auth );
+  console.log("Hover",ishover)
   return (
-    <div className="mt-10">
-      <div className="flex  justify-around">
+    <div className={`${ishover ? 'blur' : ''} transition-all duration-300 mt-[89px] -z-10
+    `}>
+      <div className="flex justify-around -z-10">
         {/* Video */}
         <div className="">
           <video
             src={Video}
             type="video/mp4"
-            className="w-[900px] rounded-xl shadow-2xl shadow-blue-500"
+            className="w-[900px] rounded-xl  shadow-2xl shadow-blue-500"
             autoPlay
             muted
             loop

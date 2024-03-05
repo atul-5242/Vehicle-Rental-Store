@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import imageCheck from '../data/Images/R.jpeg'
 import { Link ,useParams,useLocation  } from "react-router-dom"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllVehical } from '../services/operations/AdminCalls';
 import PageOfPurcahe from './PageOfPurcahe';
 // import {HomePageExplore} from '../../../data/homepage-explore';
@@ -11,7 +11,7 @@ import PageOfPurcahe from './PageOfPurcahe';
         "Bike",
         "BMW",
         "Thar",
-        "Rols Rolys",
+        "Rolls Royce",
     ];
 
 
@@ -20,21 +20,19 @@ const UserPage = () => {
     const location = useLocation();
     const dispatch=useDispatch();
     const [currentTab,setCurrentTab] = useState(tabsName[0]);
-    // const [courses,setCourses] = useState(HomePageExplore[0].courses);
-    // const [currentCard,setCurrentCard] = useState(HomePageExplore[0].courses[0].heading);
+    const {dataofVehical} = useSelector((state)=>state.item)
 
     const setMyCard= (value) =>{
         setCurrentTab(value);
-        // const result = HomePageExplore.filter((course)=>course.tag===value);
-        // setCourses(result[0].courses);
-        // setCurrentCard(result[0].courses[0].heading);
     }
     let res;
     const [variablehere,setVariablehere]=useState([]);
     useEffect(() => {
     const getAllVehical_ = async () => {
         console.log("Hii there")
-        res = await dispatch(getAllVehical());
+        let a=(dataofVehical)?1:await dispatch(getAllVehical());
+        console.log("Data comes from:->",a);
+        res = (dataofVehical)?dataofVehical:await dispatch(getAllVehical());
         setVariablehere(res?.data?.allVehicals)
         console.log("Respose:----------->>>>>>>>>",res);
     }
@@ -88,27 +86,27 @@ const UserPage = () => {
 
         <div className=' -translate-y-5 flex  flex-col gap-10 bg-black p-20 shadow-2xl ' style={{ boxShadow: '0 -10px 20px rgba(0, 0, 0, 0.8)' }}>
 
-<div className='flex flex-row justify-center gap-10'>
+<div className='flex flex-row flex-wrap justify-center gap-10 w-[1300px]'>
     
 {
     
     variablehere.map((val,index)=>{
         console.log("Image is here:",val[0])
+        
         return (
-            <div className='flex'>
-                <div className='bg-white w-96 flex flex-col'>
- <img src={val?.VehicalImage} className='shadow-2xl shadow-black w-96 h-60' alt="" />
-        <p className='text-lg text-black flex justify-center'>{val?.Name}</p>
-        <p className='text-lg text-black flex justify-center'>{val?.Price}</p>
-        <div className='flex justify-center'>
-        <Link to={`/purchasePage/${val?._id}`}>
-
-        <button className='text-white text-lg bg-black shadow-2xl shadow-white mb-2 p-4 rounded-xl'>
-            Rent</button>
-        </Link>
-        </div>
-            </div>
-            </div>
+            <div className='bg-white w-96 flex flex-col'>
+                    
+            <img src={val?.VehicalImage} className='shadow-2xl shadow-black w-96 h-60' alt="" />
+                   <p className='text-lg text-black flex justify-center'>{val?.Name}</p>
+                   <p className='text-lg text-black flex justify-center'>{val?.Price}</p>
+                   <div className='flex justify-center'>
+                   <Link to={`/purchasePage/${val?._id}`}>
+           
+                   <button className='text-white text-lg bg-black shadow-2xl shadow-white mb-2 p-4 rounded-xl'>
+                       Rent</button>
+                   </Link>
+                   </div>
+                       </div>
         )
     })
 }

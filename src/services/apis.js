@@ -1,15 +1,3 @@
-// // yhn par kin se link pe call karne jana hai wo sab kuch mention hoga.
-
-// const BASE_URL = process.env.REACT_APP_BASE_URL
-// console.log("??????????????????????????",process.env);
-
-// console.log("------------------",BASE_URL)
-// console.log("first",catogories?.CATEGORIES_API)
-// //http://localhost:4000/api/v1/course/showAllCategorys
-
-
-
-
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
@@ -25,8 +13,9 @@ export const endpoints = {
 
 // Vehical payment ENDPOINTS
 export const PaymentEndPoint = {
-  COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
-  COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+  VEHICAL_PAYMENT_API: BASE_URL + "/payment/capturePayment",
+  VEHICAL_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+  SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
 }
 
 
