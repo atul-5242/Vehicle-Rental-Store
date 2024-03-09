@@ -1,8 +1,9 @@
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiconnector"
-import { VehicalDataEndPoints ,VehicalDocVerification } from "../apis";
+import { VehicalDataEndPoints ,VehicalDocVerification  } from "../apis";
 import { setdataOfVehical } from "../../slices/ItemSlice";
 import {setAdditionalDetails} from '../../slices/authSlice';
+
 export const createvehical = (data,token) => {
     console.log("The data is here:",data);
     return async () => {
@@ -12,6 +13,7 @@ export const createvehical = (data,token) => {
       const response = await apiConnector("POST", VehicalDataEndPoints.VEHICAL_CREATE, data,{
         Authorization: `Bearer ${token}`,
     });
+    
 
       console.log("CREATE VEHICAL API RESPONSE............", response);
 
@@ -32,13 +34,20 @@ export const createvehical = (data,token) => {
 
 
 
-export const getAllVehical = () => {
-  
+export const getAllVehical = (token) => {
+  console.log(">>>>>>>>>>><<<<<<<<<<<<<<<",token)
+    let toastId;
+    let toastTriggered = false; 
     return async (dispatch) => {
-      const toastId = toast.loading("Fetching Vehicals...");
+      if (!toastTriggered) { // Check if toast has not been triggered yet
+        toastTriggered = true; // Set flag to true to indicate toast has been triggered
+        toastId = toast.loading("Fetching Vehicals..."); // Trigger loading toast
+      }
       try {
         // console
-        const response = await apiConnector("GET", VehicalDataEndPoints.VEHICAL_READ);
+        const response = await apiConnector("GET", VehicalDataEndPoints.VEHICAL_READ,null,{
+          Authorization: `Bearer ${token}`,
+      });
   
         console.log("GET ALL VEHICALS API RESPONSE............", response);
         sessionStorage.setItem("dataOfVehical", JSON.stringify(response));
@@ -50,13 +59,17 @@ export const getAllVehical = () => {
         // Dispatch an action if needed, e.g., to update Redux state with the fetched data
         // dispatch(setVehicals(response.data.vehicals));
         toast.success("Vehicals Fetched Successfully");
-        toast.dismiss(toastId);
+
         return response
       } catch (error) {
         console.log("GET ALL VEHICALS API ERROR............", error);
         toast.error("Failed to fetch Vehicals");
       }
-      toast.dismiss(toastId);
+      finally {
+        if (toastTriggered) { // Check if toast has been triggered
+          toast.dismiss(toastId); // Dismiss toast if it has been triggered
+        }
+      }
     };
   };
 export const get_A_Vehical = (id) => {
@@ -88,13 +101,47 @@ export const get_A_Vehical = (id) => {
       toast.dismiss(toastId);
     };
   };
+export const Rented_Vehical_fun = (token) => {
+    return async (dispatch) => {
+      console.log("LLLLLLLLLLLLLLLLLLL]]]]]]]]]]]",token)
+      const toastId = toast.loading("Fetching Vehicals...");
+      try {
+        // console
+        console.log("Happened")
+        const response = await apiConnector("GET", VehicalDataEndPoints.RENTED_VEHICAL,null,{
+          Authorization: `Bearer ${token}`,
+      });
+       
+  
 
-  export const verifyDocument = (verificationData,navigate,id) => {
+        console.log("GET A ----- VEHICALS API RESPONSE............", response);
+  
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+  
+        // Dispatch an action if needed, e.g., to update Redux state with the fetched data
+        // dispatch(setVehicals(response.data.vehicals));
+        toast.success("Vehicals Fetched Successfully");
+        toast.dismiss(toastId);
+        return response
+      } catch (error) {
+        console.log("GET ALL VEHICALS API ERROR............", error);
+        toast.error("Failed to fetch Vehicals");
+      }
+      toast.dismiss(toastId);
+    };
+  };
+
+  export const verifyDocument = (verificationData,navigate,id,token) => {
+    console.log("This Token:}}}}}}}}}}}}}}}}}}",token)
     return async (dispatch) => {
       const toastId = toast.loading("Verifying Documents...");
       console.log("QQQQQQQQQQQQQQQQQQ:",verificationData)
       try {
-        const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API, verificationData);
+        const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API, {
+          Authorization: `Bearer ${token}`,
+      });
   
         console.log("DOCUMENT VERIFICATION API RESPONSE............", response);
   
@@ -107,7 +154,6 @@ export const get_A_Vehical = (id) => {
         
         navigate(`/MainPaymentPage/${id}`)
         setAdditionalDetails(true);
-        toast.dismiss(toastId);
         return response;
   
       } catch (error) {

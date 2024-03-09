@@ -21,7 +21,8 @@ const UserPage = () => {
     const dispatch=useDispatch();
     const [currentTab,setCurrentTab] = useState(tabsName[0]);
     const {dataofVehical} = useSelector((state)=>state.item)
-
+    const {token} = useSelector((state)=>state.auth)
+    console.log("first||||||||||||||||||||",token)
     const setMyCard= (value) =>{
         setCurrentTab(value);
     }
@@ -30,9 +31,9 @@ const UserPage = () => {
     useEffect(() => {
     const getAllVehical_ = async () => {
         console.log("Hii there")
-        let a=(dataofVehical)?1:await dispatch(getAllVehical());
+        let a=(dataofVehical)?1:await dispatch(getAllVehical(token));
         console.log("Data comes from:->",a);
-        res = (dataofVehical)?dataofVehical:await dispatch(getAllVehical());
+        res = (dataofVehical)?dataofVehical:await dispatch(getAllVehical(token));
         setVariablehere(res?.data?.allVehicals)
         console.log("Respose:----------->>>>>>>>>",res);
     }
@@ -89,26 +90,34 @@ const UserPage = () => {
 <div className='flex flex-row flex-wrap justify-center gap-10 w-[1300px]'>
     
 {
-    
-    variablehere.map((val,index)=>{
-        console.log("Image is here:",val[0])
+    variablehere?(
         
-        return (
-            <div className='bg-white w-96 flex flex-col'>
-                    
-            <img src={val?.VehicalImage} className='shadow-2xl shadow-black w-96 h-60' alt="" />
-                   <p className='text-lg text-black flex justify-center'>{val?.Name}</p>
-                   <p className='text-lg text-black flex justify-center'>{val?.Price}</p>
-                   <div className='flex justify-center'>
-                   <Link to={`/purchasePage/${val?._id}`}>
-           
-                   <button className='text-white text-lg bg-black shadow-2xl shadow-white mb-2 p-4 rounded-xl'>
-                       Rent</button>
-                   </Link>
-                   </div>
-                       </div>
-        )
-    })
+            variablehere.map((val,index)=>{
+                console.log("Image is here:",val[0])
+                
+                return (
+                    <div className='bg-white w-96 flex flex-col'>
+                            
+                    <img src={val?.VehicalImage} className='shadow-2xl shadow-black w-96 h-60' alt="" />
+                           <p className='text-lg text-black flex justify-center'>{val?.Name}</p>
+                           <p className='text-lg text-black flex justify-center'>{val?.Price}</p>
+                           <div className='flex justify-center'>
+                           <Link to={`/purchasePage/${val?._id}`}>
+                   
+                           <button className='text-white text-lg bg-black shadow-2xl shadow-white mb-2 p-4 rounded-xl'>
+                               Rent</button>
+                           </Link>
+                           </div>
+                    </div>
+                )
+            })
+        
+    ):(
+        <div className='text-4xl text-white'>
+            Network Error
+        </div>
+    )
+    
 }
        
     </div>

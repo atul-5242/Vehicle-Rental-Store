@@ -6,6 +6,7 @@ const router = express.Router();
 const Vehical = require('../models/VehicalCreation'); // Import your Mongoose model
 const Verification = require('../models/VerificationDetails'); // Import your Verification model
 const User = require('../models/User');
+const { default: mongoose } = require('mongoose');
 const cloudinary=require("cloudinary").v2;
 function isFileTypeSupported(type,supportedType){
     return supportedType.includes(type);
@@ -13,16 +14,14 @@ function isFileTypeSupported(type,supportedType){
 
 async function uploadFiletoCloudinary(file,folder,quality){
     const options={folder};
-
     if (quality) {
         options.quality=quality;
     }
-
     options.resource_type="auto"
     return await cloudinary.uploader.upload(file.tempFilePath,options)
 }
 // Vehical Creation
-router.post('/createVehical',auth, async (req, res) => {
+router.post('/createVehical', async (req, res) => {
     // console.log("Function called.....................................",req.user.id)
   try {
     const { Name, Price, Type, Description } = req.body;
@@ -63,16 +62,17 @@ router.post('/createVehical',auth, async (req, res) => {
     // );
     
    
-    res.status(201).json({ success: true, vehical: newVehical });
+    res.status(200).json({ success: true, vehical: newVehical });
   } catch (error) {
-    res.status(500).json({ success: false, message:` Error aya hai.${error.message}` });
+    res.status(500).json({ success: false, message:`Error aya hai.${error.message}` });
   }
 });
 
 // Vehical Read
-router.get('/getAllVehical', async (req, res) => {
+router.get('/getAllVehical',auth,async (req, res) => {
+  // console.log("first->>>>>>>>>>>}}}}}}}}}}",req.user)
   try {
-    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+    // console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",req.user)
     
     const allVehicals = await Vehical.find({});
     
@@ -94,10 +94,23 @@ router.get('/get_A_Vehical', async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 });
-
-// Vehical Document Verification
-router.post('/docVerifycreate', async (req, res) => {
+// Rented Vehical:-
+router.get('/Rented_Vehical',auth, async (req, res) => {
+  let verificationId=req.user.id;
+  
+  console.log("DEEEPPPPPPP",verificationId)
   try {
+    const UserDetails_Rented = await User.findById(verificationId).populate("RentedVehical"); // assuming Vehicle is your Mongoose model
+    
+    return res.status(200).json({ success: true,  UserDetails_Rented });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+// Vehical Document Verification
+router.post('/docVerifycreate',auth, async (req, res) => {
+  try {
+    console.log("Cute");
     const aadharCard=req.files.aadharCard
     const drivingLicence=req.files.drivingLicence;
     const photograph=req.files.photograph
@@ -112,17 +125,33 @@ router.post('/docVerifycreate', async (req, res) => {
      const response_photograph =  await uploadFiletoCloudinary(photograph,"codehelp");
      
     // const { aadharCard, drivingLicence, photograph, phoneNumber } = req.body;
-    const newVerification = new Verification({
-      aadharCard:response_aadharCard.secure_url,
-      drivingLicence:response_drivingLicence.secure_url,
-      photograph:response_photograph.secure_url,
-      phoneNumber:phoneNumber,
-    });
+    // const newVerification = await Verification.findByIdAndUpdate({
+    //   aadharCard:response_aadharCard.secure_url,
+    //   drivingLicence:response_drivingLicence.secure_url,
+    //   photograph:response_photograph.secure_url,
+    //   phoneNumber:phoneNumber,
+    // });
+    // console.log("Id}}}}}}}}}}}}}}}}}}}}}}",req.user)
+    let verificationId=req.user.id;
+    let userDetails = await User.findById(verificationId);
+    // 65e9d59da4e4e07fb1690247
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",(userDetails.additionalDetails).toString());
+    console.log("response_aadharCard",response_aadharCard)
+    const newVerification = await Verification.findByIdAndUpdate(
+      (userDetails.additionalDetails).toString(), 
+        {
+          aadharCard: response_aadharCard.secure_url,
+          drivingLicence: response_drivingLicence.secure_url,
+          phoneNumber: phoneNumber,
+          photograph: response_photograph.secure_url,
+        },
+      { new: true }
+    );
 
-    const savedVerification = await newVerification.save();
-    res.status(201).json({ success: true, verification: savedVerification });
+    
+    res.status(200).json({ success: true, verification: newVerification });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
   }
 });
 

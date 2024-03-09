@@ -142,10 +142,10 @@ exports.signUp = async (req,res)=>{
         // Hashed Password:-
         const hashedPassword=await bcrypt.hash(password,10);
         const profileDetails = await Profile.create({
-            aadharCard:"",
-            drivingLicence:"",
-            photograph:"",
-            phoneNumber:"",
+            aadharCard:null,
+            drivingLicence:null,
+            photograph:null,
+            phoneNumber:null,
         });
 
         // entry created in DB:-
@@ -189,7 +189,11 @@ exports.login = async (req,res) =>{
             })
         }
         // user check exist or not
-        const user = await User.findOne({email}).populate("additionalDetails");
+        const user = await User.findOne({email})
+        .populate("RentedVehical")
+        .populate("additionalDetails").exec();
+
+
         // generate  JWT , after password matching
         if(!user){
             return res.status(401).json({
