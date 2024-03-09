@@ -170,7 +170,7 @@ const PurchaseForm = () => {
     // Dispatch the form data to Redux
     dispatch(setVerificationDetails_Slice(formData));
     console.log("FFFFFFFFFFFFFFFFFFFDDDDDDDDDDDDD",formData)
-    dispatch(verifyDocument(formData,navigate,id))
+    dispatch(verifyDocument(formData,navigate,id,token))
     // dispatch(verifyDocument(data));
     // Add the rest of your logic here
   };

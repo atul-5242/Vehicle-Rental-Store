@@ -11,9 +11,9 @@ const PageOfPurcahe = () => {
     console.log("PPPPPPPPP",id)
     const dispatch = useDispatch()
     const {user}=useSelector((state)=>state.profile);
-    console.log("#42...........................................",user.RentedVehical.additionalDetails==0)
+    console.log("#42...........................................",user.additionalDetails.aadharCard==null)
     // let additionalDetails=user
-    let additionalDetails=user.additionalDetails.length==0;
+    let additionalDetails=user.additionalDetails.aadharCard==null;
     const [variablehere,setVariablehere]=useState([]);
      useEffect(() => {
     const getVehical_ = async () => {

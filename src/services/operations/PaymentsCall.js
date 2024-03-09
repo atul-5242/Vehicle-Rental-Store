@@ -244,7 +244,7 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
             throw new Error(response.data.message);
         }
         toast.success("payment Successful, You Rented the Vehical.");
-        navigate("/dashboard/Store");
+        navigate("/dashboard/rented_item");
     }   
     catch(error) {
         console.log("PAYMENT VERIFY ERROR....", error);
