@@ -26,7 +26,8 @@ export const VehicalDataEndPoints = {
   VEHICAL_READ: BASE_URL + "/vehical/getAllVehical",
   VEHICAL_A_READ: BASE_URL + "/vehical/get_A_Vehical",
   RENTED_VEHICAL: BASE_URL + "/vehical/Rented_Vehical",
-  
+  USER_DETAILS:BASE_URL+"/vehical/userdetails",
+  SINGLE_USER_DETAILS:BASE_URL+"/Vehical/singleUser"
 }
 // Vehical Verification
 export const VehicalDocVerification = {

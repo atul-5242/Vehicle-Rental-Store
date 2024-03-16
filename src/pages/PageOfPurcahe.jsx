@@ -15,7 +15,7 @@ const PageOfPurcahe = () => {
     // let additionalDetails=user
     let additionalDetails=user.additionalDetails.aadharCard==null;
     const [variablehere,setVariablehere]=useState([]);
-     useEffect(() => {
+    useEffect(() => {
     const getVehical_ = async () => {
         console.log("Hii there")
         let res = await dispatch(get_A_Vehical(id));

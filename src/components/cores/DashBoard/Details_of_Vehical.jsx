@@ -3,8 +3,8 @@ import React from 'react'
 // import { Link } from 'react-router-dom'
 const Details_of_Vehical = () => {
   return (
-    <div>
-      P
+    <div className='text-black text-4xl'>
+      Pmlmmdvsdcccccccccccccccccccccccccccccccc   
     </div>
   )
 }
