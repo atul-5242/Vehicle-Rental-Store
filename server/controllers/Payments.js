@@ -416,6 +416,11 @@ const rentedVehical = async(VehicalId, userId, res) => {
             RentedVehical: VehicalId,
         }},{new:true})
             
+
+        const PendingVehical = await User.findByIdAndUpdate(userId,
+            {$push:{
+                PendingVehical: VehicalId,
+            }},{new:true})
         ///bachhe ko mail send kardo
         // const emailResponse = await mailSender(
         //     enrolleVehical.email,

@@ -25,7 +25,7 @@ router.post('/createVehical', async (req, res) => {
     // console.log("Function called.....................................",req.user.id)
   try {
     const { Name, Price, Type, Description } = req.body;
-    console.log("Request",req.user.id)
+    // console.log("Request",req.user.id)
     const file = req.files.VHIMG;
     console.log("Image-------------",Name, Price, Type, Description,file);
 
@@ -110,7 +110,7 @@ router.get('/Rented_Vehical',auth, async (req, res) => {
 // Vehical Document Verification
 router.post('/docVerifycreate',auth, async (req, res) => {
   try {
-    console.log("Cute");
+    console.log("Cute",req.files);
     const aadharCard=req.files.aadharCard
     const drivingLicence=req.files.drivingLicence;
     const photograph=req.files.photograph
@@ -150,6 +150,37 @@ router.post('/docVerifycreate',auth, async (req, res) => {
 
     
     res.status(200).json({ success: true, verification: newVerification });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+
+
+
+
+
+
+
+
+// User Details
+router.get('/userdetails', async (req, res) => {
+  try {
+
+    let userDetails = await User.find({accountType:"Customer"});
+    res.status(200).json({ success: true, Users: userDetails });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+
+
+router.get('/singleUser', async (req, res) => {
+  try {
+    const {id}= req.query
+    let userDetails1 = await User.find({_id:id}).populate("RentedVehical").populate("additionalDetails");
+    res.status(200).json({ success: true, Users: userDetails1 });
   } catch (error) {
     res.status(500).json({ success: false, message:` This is error:${error.message} `});
   }

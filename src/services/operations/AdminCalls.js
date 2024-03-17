@@ -2,7 +2,7 @@ import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiconnector"
 import { VehicalDataEndPoints ,VehicalDocVerification  } from "../apis";
 import { setdataOfVehical } from "../../slices/ItemSlice";
-import {setAdditionalDetails} from '../../slices/authSlice';
+import {setAdditionalDetails, setSingleUserData} from '../../slices/authSlice';
 
 export const createvehical = (data,token) => {
     console.log("The data is here:",data);
@@ -139,7 +139,7 @@ export const Rented_Vehical_fun = (token) => {
       const toastId = toast.loading("Verifying Documents...");
       console.log("QQQQQQQQQQQQQQQQQQ:",verificationData)
       try {
-        const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API, {
+        const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API,verificationData, {
           Authorization: `Bearer ${token}`,
       });
   
@@ -165,3 +165,94 @@ export const Rented_Vehical_fun = (token) => {
   };
 
 
+
+
+
+  export const UserDetails = () => {
+    // console.log("This Token:}}}}}}}}}}}}}}}}}}",token)
+    return async (dispatch) => {
+      const toastId = toast.loading("Verifying Documents...");
+      // console.log("QQQQQQQQQQQQQQQQQQ:",verificationData)
+      try {
+        const response = await apiConnector("GET", VehicalDataEndPoints.USER_DETAILS);
+  
+        console.log("USER_DETAILS API RESPONSE............", response);
+        
+  
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+  
+        toast.success("USER DETAILS fetched Successful.");
+        // You can dispatch additional actions if needed
+        // setAdditionalDetails(true);
+        toast.dismiss(toastId);
+        return response;
+  
+      } catch (error) {
+        console.log("DOCUMENT VERIFICATION API ERROR............", error);
+        toast.error("User Details Failed");
+      }
+      toast.dismiss(toastId);
+    };
+  };
+
+  export const SingleUserDetails = (navigate,id,dispatch) => {
+    return async (dispatch) => {
+      console.log("LLLLLLLLLLLLLLLLLLL]]]]]]]]]]]",id)
+      const toastId = toast.loading("Fetching Vehicals...");
+      try {
+        // console
+
+        const response = await apiConnector("GET", `${VehicalDataEndPoints.SINGLE_USER_DETAILS}`,null,null,{id});
+       
+  
+
+        console.log("GET A ----- Single User API RESPONSE............", response?.data?.Users[0]);
+        
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+
+        dispatch(setSingleUserData(response?.data?.Users[0]));
+        sessionStorage.setItem("singleUser", JSON.stringify(response?.data?.Users[0]));
+        // Dispatch an action if needed, e.g., to update Redux state with the fetched data
+        // dispatch(setVehicals(response.data.vehicals));
+        toast.success("Vehicals Fetched Successfully");
+        toast.dismiss(toastId);
+        navigate("/dashboard/Customer_rented_vehical");
+        return response
+      } catch (error) {
+        console.log("GET ALL VEHICALS API ERROR............", error);
+        toast.error("Failed to fetch Vehicals");
+      }
+      toast.dismiss(toastId);
+    };
+  };
+
+
+
+  export function Approved(id,vehicalId) {
+    return async (dispatch) => {
+      console.log("Approved function",id)
+      const toastId = toast.loading("Approving");
+      try {
+       const response = await apiConnector("POST", `${VehicalDataEndPoints.Approved}`,null,null,{id,vehicalId});
+
+        console.log("GET A ----- Approved function API RESPONSE............", response);
+        
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+
+        toast.success("Approved Successfully");
+        toast.dismiss(toastId);
+        navigate("/dashboard/Customer_rented_vehical");
+        return response 
+      } catch (error) {
+        console.log("Approved API ERROR............", error);
+        toast.error("Failed to fetch Vehicals");
+      }
+      toast.dismiss(toastId);
+    };
+}

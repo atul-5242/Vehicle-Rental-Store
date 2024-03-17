@@ -67,6 +67,17 @@ export default function ProfileDropdown() {
               </Link> 
                 )
             }
+            {
+                
+                user.accountType==="Admin"?(
+                  <Link to="/dashboard/allCustomerRent" onClick={() => setOpen(false)}>
+                <div className="flex w-full left-0 -translate-x-4 gap-x-1 py-[10px] px-[30px] text-sm  text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+                <FaBox className="text-lg" />
+                  Customers<span>Details</span>
+                </div>
+              </Link> 
+                ):(<span></span>)
+            }
            
           <div
             onClick={() => {

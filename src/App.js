@@ -16,6 +16,8 @@ import MainPaymentPage from "./pages/MainPaymentPage";
 import VehicalCreatePage from "./pages/VehicalCreatePage";
 import Rented_item from "./components/cores/DashBoard/Rented_item";
 import Details_of_Vehical from "./components/cores/DashBoard/Details_of_Vehical";
+import Customer_rented_vehical from "./components/cores/DashBoard/Customer_rented_vehical";
+import AllRentsOfCustomer from "./pages/AllRentsOfCustomer";
 
 function App() {
   return (
@@ -111,6 +113,27 @@ function App() {
           <Details_of_Vehical/>
         }
         />
+
+        <Route
+        path="dashboard/Customer_rented_vehical"
+        element={
+          <Customer_rented_vehical/>
+        }
+        />
+        <Route
+        path="dashboard/Customer_rented_vehical"
+        element={
+          <Customer_rented_vehical/>
+        }
+        />
+        <Route
+        path="dashboard/allCustomerRent"
+        element={
+          <AllRentsOfCustomer/>
+        }
+        />
+
+
       </Routes>
 
     </div>
