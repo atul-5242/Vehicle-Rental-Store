@@ -177,6 +177,7 @@ export const Rented_Vehical_fun = (token) => {
         const response = await apiConnector("GET", VehicalDataEndPoints.USER_DETAILS);
   
         console.log("USER_DETAILS API RESPONSE............", response);
+        
   
         if (!response.data.success) {
           throw new Error(response.data.message);
@@ -212,8 +213,9 @@ export const Rented_Vehical_fun = (token) => {
         if (!response.data.success) {
           throw new Error(response.data.message);
         }
+
         dispatch(setSingleUserData(response?.data?.Users[0]));
-  
+        sessionStorage.setItem("singleUser", JSON.stringify(response?.data?.Users[0]));
         // Dispatch an action if needed, e.g., to update Redux state with the fetched data
         // dispatch(setVehicals(response.data.vehicals));
         toast.success("Vehicals Fetched Successfully");
@@ -228,3 +230,29 @@ export const Rented_Vehical_fun = (token) => {
     };
   };
 
+
+
+  export function Approved(id,vehicalId) {
+    return async (dispatch) => {
+      console.log("Approved function",id)
+      const toastId = toast.loading("Approving");
+      try {
+       const response = await apiConnector("POST", `${VehicalDataEndPoints.Approved}`,null,null,{id,vehicalId});
+
+        console.log("GET A ----- Approved function API RESPONSE............", response);
+        
+        if (!response.data.success) {
+          throw new Error(response.data.message);
+        }
+
+        toast.success("Approved Successfully");
+        toast.dismiss(toastId);
+        navigate("/dashboard/Customer_rented_vehical");
+        return response 
+      } catch (error) {
+        console.log("Approved API ERROR............", error);
+        toast.error("Failed to fetch Vehicals");
+      }
+      toast.dismiss(toastId);
+    };
+}

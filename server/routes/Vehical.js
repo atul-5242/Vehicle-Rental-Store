@@ -173,10 +173,13 @@ router.get('/userdetails', async (req, res) => {
     res.status(500).json({ success: false, message:` This is error:${error.message} `});
   }
 });
+
+
+
 router.get('/singleUser', async (req, res) => {
   try {
     const {id}= req.query
-    let userDetails1 = await User.find({_id:id}).populate("RentedVehical");
+    let userDetails1 = await User.find({_id:id}).populate("RentedVehical").populate("additionalDetails");
     res.status(200).json({ success: true, Users: userDetails1 });
   } catch (error) {
     res.status(500).json({ success: false, message:` This is error:${error.message} `});

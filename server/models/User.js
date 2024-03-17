@@ -49,6 +49,25 @@ const userSchema=new mongoose.Schema({
             ref:"Vehical"
         }
     ],
+    ApprovedVehical:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Vehical"
+        }
+    ],
+    PendingVehical:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Vehical"
+        }
+    ],
+    DeclinedVehical:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Vehical"
+        }
+    ],
+
 })
 
 module.exports=mongoose.model("User",userSchema);

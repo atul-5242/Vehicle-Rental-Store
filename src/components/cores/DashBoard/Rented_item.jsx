@@ -1,13 +1,13 @@
 import React from "react";
-import img1 from "../../../data/Images/carlogo.png";
-import img2 from "../../../data/Images/logo.jpg";
-import { Link } from "react-router-dom";
+// import img1 from "../../../data/Images/carlogo.png";
+// import img2 from "../../../data/Images/logo.jpg";
+// import { Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import { Rented_Vehical_fun, get_A_Vehical } from "../../../services/operations/AdminCalls";
 import { useEffect, useState } from "react";
 
 const Rented_item = () => {
-  const { user } = useSelector((state) => state.profile);
+  // const { user } = useSelector((state) => state.profile);
   const [rentedVehical, setrentedVehical] = useState([]);
   const [rentedVehicalSpecififc, setrentedVehicalSpecififc] = useState([]);
   console.log("I am Here:",rentedVehicalSpecififc)
@@ -30,7 +30,7 @@ const Rented_item = () => {
   }, []);
   const fun=async (id)=>{
     const data1=await dispatch(get_A_Vehical(id));
-    if(data1==undefined){
+    if(data1===undefined){
       settoggle(false);
     }
     console.log("Data 1 is Set",data1)
@@ -45,7 +45,7 @@ const Rented_item = () => {
 
       {/* Both */}
               <div className={`${toggle?"bg-white":"bg-[#F1F2FF]"} justify-center flex w-[1000px] transition duration-1000
-              rounded-3xl p-10  ${toggle ? 'fixed top-0 z-10' : ''} ml-56 mt-${toggle?40:0} z-${toggle?10:0} ${toggle?"visible":"invisible"}`}>
+              rounded-3xl p-10  ${toggle ? 'fixed top-0 z-10' : ''} ml-56 ${toggle?'mt-40':'mt-0'} z-${toggle?"10":"0"} ${toggle?"visible":"invisible"}`}>
       
         <div className="flex gap-5">
           {/* Image  */}
@@ -114,8 +114,10 @@ const Rented_item = () => {
 
 
                       <button className="p-5 w-72 ml-10 px-10 shadow-2xl hover:scale-95 shadow-black bg-black font-semibold text-white hover:bg-richblack-5 duration-400 transition-all hover:text-black  rounded-md"
-                        onClick={()=>{fun(val._id)
+                        onClick={()=>{
                           settoggle(true)
+                          fun(val._id)
+                          
                         }}
                       >
                         Get Details
