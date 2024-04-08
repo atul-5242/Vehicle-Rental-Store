@@ -220,5 +220,23 @@ router.post('/Approved', async (req, res) => {
   }
 });
 
+
+router.post('/decline', async (req, res) => {
+  try {
+    const {id,vehicalId}= req.query
+
+    const VehicalApprovedAndPendingDel = await User.findByIdAndUpdate(id,
+      {
+        $push: { DeclinedVehical: vehicalId },
+        $pull: { PendingVehical: vehicalId }
+      },
+      { new: true }
+    );
+    res.status(200).json({ success: true, UserDetails: VehicalApprovedAndPendingDel });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
 module.exports = router;
 

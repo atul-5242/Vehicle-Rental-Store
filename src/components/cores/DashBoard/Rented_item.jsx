@@ -5,11 +5,18 @@ import React from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { Rented_Vehical_fun, get_A_Vehical } from "../../../services/operations/AdminCalls";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Rented_item = () => {
   // const { user } = useSelector((state) => state.profile);
   const [rentedVehical, setrentedVehical] = useState([]);
   const [rentedVehicalSpecififc, setrentedVehicalSpecififc] = useState([]);
+  const navigate=useNavigate();
+  const [approved,setapproved]=useState([]);
+  const [decline,setdecline]=useState([]);
+  const [pending,setpending]=useState([]);
+
+
   console.log("I am Here:",rentedVehicalSpecififc)
   const [toggle,settoggle]=useState(false);
 
@@ -18,9 +25,12 @@ const Rented_item = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await dispatch(Rented_Vehical_fun(token));
+        const res = await dispatch(Rented_Vehical_fun(token,navigate));
         console.log("--------------------FFFFFFFFFFFFFFFF------------------", res);
         setrentedVehical(res?.data?.UserDetails_Rented?.RentedVehical);
+        setapproved(res?.data?.UserDetails_Rented?.ApprovedVehical);
+        setdecline(res?.data?.UserDetails_Rented?.DeclinedVehical);
+        setpending(res?.data?.UserDetails_Rented?.PendingVehical);
       } catch (error) {
         console.error("Error fetching rented vehicles:", error);
       }
@@ -112,7 +122,11 @@ const Rented_item = () => {
                   <div className="bg-white w-96 flex flex-col rounded-3xl">
                     <img src={val.VehicalImage} alt="" className="w-96" />
 
-
+                      {
+                        approved.includes(val._id)?(<div>Approved</div>):
+                        decline.includes(val._id)?(<div>Decline</div>):
+                        (<div>Pending</div>)
+                      }
                       <button className="p-5 w-72 ml-10 px-10 shadow-2xl hover:scale-95 shadow-black bg-black font-semibold text-white hover:bg-richblack-5 duration-400 transition-all hover:text-black  rounded-md"
                         onClick={()=>{
                           settoggle(true)

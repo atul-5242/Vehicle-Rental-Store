@@ -4,10 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {setSingleUserData} from '../../../slices/authSlice';
-import {Approved, SingleUserDetails} from '../../../services/operations/AdminCalls'
+import {Approved, Decline, SingleUserDetails} from '../../../services/operations/AdminCalls'
 import { useNavigate } from 'react-router-dom';
 const CustomerRentedVehicles = () => {
-
 
 
   const { singleUserData } = useSelector((state) => state.auth);
@@ -21,7 +20,7 @@ const CustomerRentedVehicles = () => {
   const [buttonClicked, setButtonClicked] = useState(false);
   // User Approved Vehical Array:-
   const [approvedArray,setapprovedArray]=useState([]);
-
+  const [declineArray,setdeclineArray] = useState([]);
 
 
 
@@ -37,45 +36,37 @@ const CustomerRentedVehicles = () => {
     setButtonClicked(true); //
     const result=await dispatch(Approved(id,vehicalId,dispatch,navigate));
     setapprovedArray(singleUserData.ApprovedVehical)
-    // setimpAPI()
     window.location.reload();
-      
-    // console.log("Indian Team",result?.UserDetails);
-    // setdataofUser(result?.data?.Users[0]);
-    // setSingleUserData(result?.data?.Users[0])
-    // console.log("first updated''''''''''''''''",dataofUser)
-    // dispatch(setSingleUserData(result?.UserDetails))
-    // sessionStorage.setItem("singleUser", JSON.stringify(result?.UserDetails));
+
     console.log("Approval Single USER Details ")
 
-    
   } 
 
+  // Decline
+ async function DeclineClicked  (id,vehicalId,dispatch,navigate){
+    setButtonClicked(true); //
+    const result=await dispatch(Decline(id,vehicalId,dispatch,navigate));
+    setdeclineArray(singleUserData.DeclinedVehical)
+    window.location.reload();
 
+    console.log("Decline Single USER Details ")
 
+  } 
 
 
   console.log("The Approved Data Array:---------",approvedArray)
   console.log("The dataofUser Data Array:---------",singleUserData.ApprovedVehical)
-  
-  
-  // User Approved State:
-  const [approved,setApproved]=useState("");
-  // const [variable1,setVariable]=useState([]);
+
   
   useEffect(() => {
-      // const res=dispatch(SingleUserDetails(navigate,singleUserData._id,dispatch))
-      // setdataofUser(res?.data?.Users[0]);
-      setButtonClicked(false); //
-      // setSingleUserData(res?.data?.Users[0])
       
-      // console.log("first send third",dataofUser.ApprovedVehical)
+      setButtonClicked(false);      
       setapprovedArray(singleUserData.ApprovedVehical)
+      setdeclineArray(singleUserData.DeclinedVehical)
 
-      }, [buttonClicked]); // Add toggle as a dependency here
+      }, [buttonClicked]);
       
-      //The Decline functinality remains. 
-    // console.log("Now Changed Once",singleUserData.ApprovedVehical[0]);
+    
     
   return (
     <div className=''>
@@ -148,10 +139,10 @@ const CustomerRentedVehicles = () => {
         <div>
           {/* Cards */}
           <div>
-            <div className='w-[1024px] overflow-auto h-[500px] flex flex-wrap gap-5'>
+            <div className='w-[1024px] overflow-auto h-[500px] flex flex-wrap gap-5 '>
               {singleUserData.RentedVehical.map(vehicle => (
-                <div key={vehicle._id} className='card flex flex-col justify-center border rounded-3xl border-richblack-800 shadow-2xl p-1 h-fit'>
-                  <img src={vehicle.VehicalImage} alt={vehicle.Name} className='w-72 rounded-3xl' />
+                <div key={vehicle._id} className='card flex flex-col justify-center  border-richblack-800 shadow-2xl shadow-richblack-600 hover:scale-105 transition-all duration-150 p-1 h-[280px]'>
+                  <img src={vehicle.VehicalImage} alt={vehicle.Name} className='w-72 ' />
                   <div className='flex flex-col'>
                     <div className='flex gap-1 justify-around'>
                       <div className='flex gap-3'>
@@ -176,13 +167,17 @@ const CustomerRentedVehicles = () => {
                         {
                           approvedArray.includes(`${vehicle._id}`) ? (
 
-<div>Approved</div>
+                              <div>Approved</div>
 
                            
-                          ) : (
+                          ) :declineArray.includes(`${vehicle._id}`)?(
+
+                            <div>DEclined</div>
+                            
+                                                       
+                                                      ) : (
                             <div>
                             <div className='flex bg-black shadow-black shadow-2xl hover:bg-white  hover:border-black text-white hover:text-black p-2 rounded-3xl transition-all duration-200'>
-                              hello
                               <button onClick={()=>ApprovedClicked(singleUserData._id,vehicle._id,dispatch,navigate)}>
                                 {
                                   console.log("Here::::::::::::::::::",vehicle)
@@ -191,7 +186,12 @@ const CustomerRentedVehicles = () => {
                               </button>
                             </div>
                             <div className='flex bg-black shadow-black shadow-2xl hover:bg-white  hover:border-black text-white hover:text-black p-2 rounded-3xl transition-all duration-200'>
-                              <button>Decline</button>
+                              <button
+                              onClick={()=>DeclineClicked(singleUserData._id,vehicle._id,dispatch,navigate)}>
+                              {
+                                console.log("Here decline::::::::::::::::::",vehicle)
+                              }
+                              Decline</button>
                             </div>
                           </div>
                           )

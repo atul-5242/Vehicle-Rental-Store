@@ -7,7 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 const AllRentsOfCustomer = () => {
 
-
+    const [approved,setapproved]=useState([]);
+    const [rented,setreneted]=useState([]);
+    const [pending,setpending]=useState([]);
+    // setapproved(res?.data?.UserDetails_Rented?.ApprovedVehical);
+    // setdecline(res?.data?.UserDetails_Rented?.DeclinedVehical);
+    // setpending(res?.data?.UserDetails_Rented?.PendingVehical);
 
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -17,7 +22,7 @@ const AllRentsOfCustomer = () => {
             console.log("Hii there")
             let res = await dispatch(UserDetails());
             setVariable(res?.data?.Users)
-            console.log("Respose:----OF User<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--",res);
+            console.log("Respose:----OF User<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--",res?.data?.User);
         }
         funUser();
     }, [])
@@ -33,7 +38,7 @@ const AllRentsOfCustomer = () => {
             <div>Name</div>
             <div className='ml-20'>Email</div>
             <div className='ml-20'>Rented Vehical</div>
-            <div>Verification</div>
+            <div>Verification Submittion</div>
             <div>Uproved Vehical</div>
             <div>View Details</div>
         </div>
@@ -47,9 +52,9 @@ const AllRentsOfCustomer = () => {
                      <td>{index + 1}</td>
                     <td className='max-w-[100px] flex flex-wrap'>{val.firstName} {" "} {val.lastName}</td>
                     <td className=''>{val.email}</td>
-                    <td className='ml-6'>1</td>
-                    <td className='ml-16'>Pending</td>
-                    <td className='ml-16'>1</td>
+                    <td className='ml-6'>{val.ApprovedVehical.length}</td>
+                    <td className='ml-16'>{val.additionalDetails.length==0?<div>Pending</div>:<div>Completed</div>}</td>
+                    <td className='ml-16'>{val.RentedVehical.length}</td>
                     <button className='ml-16' onClick={()=>dispatch(SingleUserDetails(navigate,val._id,dispatch))}>View Details</button>
                     
             </tr>
