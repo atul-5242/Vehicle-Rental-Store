@@ -137,7 +137,7 @@ export const Rented_Vehical_fun = (token) => {
     console.log("This Token:}}}}}}}}}}}}}}}}}}",token)
     return async (dispatch) => {
       const toastId = toast.loading("Verifying Documents...");
-      console.log("QQQQQQQQQQQQQQQQQQ:",verificationData)
+      console.log("QQQQQQQQQQQQQQQQQQ:",verificationData);
       try {
         const response = await apiConnector("POST", VehicalDocVerification.VEHICAL_DOC_API,verificationData, {
           Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export const Rented_Vehical_fun = (token) => {
 
   export const SingleUserDetails = (navigate,id,dispatch) => {
     return async (dispatch) => {
-      console.log("LLLLLLLLLLLLLLLLLLL]]]]]]]]]]]",id)
+      console.log("LLLLLLLLLLLLLLLLLLL]]]]]]]]]]]",id);
       const toastId = toast.loading("Fetching Vehicals...");
       try {
         // console
@@ -232,27 +232,60 @@ export const Rented_Vehical_fun = (token) => {
 
 
 
-  export function Approved(id,vehicalId) {
+  export function Approved(id,vehicalId,dispatch,navigate) {
     return async (dispatch) => {
       console.log("Approved function",id)
       const toastId = toast.loading("Approving");
       try {
        const response = await apiConnector("POST", `${VehicalDataEndPoints.Approved}`,null,null,{id,vehicalId});
 
-        console.log("GET A ----- Approved function API RESPONSE............", response);
+        console.log("GET A ----- Approved function API RESPONSE............", response?.data?.UserDetails);
         
         if (!response.data.success) {
           throw new Error(response.data.message);
         }
-
+        
         toast.success("Approved Successfully");
         toast.dismiss(toastId);
         navigate("/dashboard/Customer_rented_vehical");
-        return response 
+        return dispatch(SingleUserDetails(navigate,id,dispatch));
+        // return response?.data
       } catch (error) {
         console.log("Approved API ERROR............", error);
-        toast.error("Failed to fetch Vehicals");
+        toast.error("Approved API ERROR.");
       }
       toast.dismiss(toastId);
     };
+}
+
+
+
+
+
+
+
+export function Decline(id,vehicalId,dispatch,navigate) {
+  return async (dispatch) => {
+    console.log("Approved function",id)
+    const toastId = toast.loading("Approving");
+    try {
+     const response = await apiConnector("POST", `${VehicalDataEndPoints.Decline}`,null,null,{id,vehicalId});
+
+      console.log("GET A ----- Approved function API RESPONSE............", response?.data?.UserDetails);
+      
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      }
+      
+      toast.success("Approved Successfully");
+      toast.dismiss(toastId);
+      navigate("/dashboard/Customer_rented_vehical");
+      return dispatch(SingleUserDetails(navigate,id,dispatch));
+      // return response?.data
+    } catch (error) {
+      console.log("Approved API ERROR............", error);
+      toast.error("Approved API ERROR.");
+    }
+    toast.dismiss(toastId);
+  };
 }

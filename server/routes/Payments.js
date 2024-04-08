@@ -4,6 +4,7 @@
 
 // const { capturePayment, verifyPayment, sendPaymentSuccessEmail } = require("../controllers/Payments")
 // const { auth,isCustomer } = require("../middlewares/auth")
+
 // router.post("/capturePayment", auth, isCustomer, capturePayment)
 // router.post("/verifyPayment",auth, isCustomer, verifyPayment)
 // router.post("/sendPaymentSuccessEmail", auth, isCustomer, sendPaymentSuccessEmail);

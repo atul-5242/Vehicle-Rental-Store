@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title> FORM Validation </title>
+</head>
+
+<body>
+<h2>Form Validation</h2>
+
+<fieldset>
+<form method="post" name="myform"  onsubmit="return Validate()">
+
+		<label>Student ID</label>
+
+		<input type="number" name="stud_Id" placeholder="Enter your ID" required><br><br>
+		<label>Name</label>
+		<input type="text" name="fname" placeholder="Enter your Name" required><br><br>
+
+		<label>Email</label>
+
+		<input type="text" id="email" name="Email" placeholder="Enter your Email" required><br><br>
+		<label>Password</label>
+
+		<input type="password" id="pass" name="Pass" placeholder="Enter your Password" required><br><br>
+		<label>Confirm Password</label>
+		<input type="password" id="C_pass" name="C_Pass" placeholder="Confirm Password" required><br><br>
+
+
+		<input type="submit"  value="Submit" >
+<button type="reset">Reset</button>
+</form>
+</fieldset>
+
+
+<script>
+function Validate(){
+
+var name = document.myform["fname"].value;
+var r1 = /^[a-zA-Z ]{2,30}$/;
+if(r1.test(name))
+{
+	alert("Name is Correct");
+	return true;
+}else{
+	alert("Name is Invalid characters are allow");
+	return false;
+} 
+
+
+var p = document.myform["Pass"].value;
+var cp = document.myform["C_Pass"].value;
+
+if(p===cp){
+	alert("password changed successfully");
+	return true;
+}else{
+	alert("Password is Incorrect");
+	return false;
+}
+
+
+var mail = document.myform["Email"].value;
+var check = "@gmail.com";
+
+if(mail.find(check)){
+	alert("Email Updated successfully");
+	return true;
+}else{
+	alert("Email is incorrect");
+	return false;
+}
+}
+
+</script>
+
+</body>
+</html>

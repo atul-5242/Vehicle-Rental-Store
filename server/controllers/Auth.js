@@ -210,7 +210,7 @@ exports.login = async (req,res) =>{
                 accountType:user.accountType,
             }
             const  token =jwt.sign(payload,process.env.JWT_SECRET,{
-                expiresIn:"2h",///<-------------------------------------------------------------------------------------------------Search here why only 2h if 2 hours done then what user is logged out?
+                expiresIn:"12h",///<-------------------------------------------------------------------------------------------------Search here why only 2h if 2 hours done then what user is logged out?
 
             });
 
