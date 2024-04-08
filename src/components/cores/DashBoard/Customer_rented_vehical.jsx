@@ -74,7 +74,7 @@ const CustomerRentedVehicles = () => {
 
       }, [buttonClicked]); // Add toggle as a dependency here
       
-      
+      //The Decline functinality remains. 
     // console.log("Now Changed Once",singleUserData.ApprovedVehical[0]);
     
   return (
