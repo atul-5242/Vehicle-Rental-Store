@@ -115,7 +115,7 @@ function App() {
         />
 
         <Route
-        path="dashboard/Customer_rented_vehical"
+      path="dashboard/Customer_rented_vehical"
         element={
           <Customer_rented_vehical/>
         }

@@ -179,7 +179,7 @@ router.get('/userdetails', async (req, res) => {
 router.get('/singleUser', async (req, res) => {
   try {
     const {id}= req.query
-    let userDetails1 = await User.find({_id:id}).populate("RentedVehical").populate("additionalDetails");
+    let userDetails1 = await User.find({_id:id}).populate("RentedVehical").populate("additionalDetails").exec();
     res.status(200).json({ success: true, Users: userDetails1 });
   } catch (error) {
     res.status(500).json({ success: false, message:` This is error:${error.message} `});
@@ -187,3 +187,38 @@ router.get('/singleUser', async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+
+router.post('/Approved', async (req, res) => {
+  try {
+    const {id,vehicalId}= req.query
+    // const VehicalApproved = await User.findByIdAndUpdate(id,
+    //   {$push:{
+    //     ApprovedVehical:  vehicalId
+    //   }},{new:true})
+
+
+    //   // const VehicalRentApproved = await User.findByIdAndUpdate(id,
+    //   //   {$push:{
+    //   //     RentedVehical:vehicalId}},{new:true})
+    //   const VehicalPendingDel = await User.findByIdAndUpdate(id, {
+    //     $pull: { PendingVehical: vehicalId }
+    // }, { new: true });
+
+    const VehicalApprovedAndPendingDel = await User.findByIdAndUpdate(id,
+      {
+        $push: { ApprovedVehical: vehicalId },
+        $pull: { PendingVehical: vehicalId }
+      },
+      { new: true }
+    );
+    res.status(200).json({ success: true, UserDetails: VehicalApprovedAndPendingDel });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+module.exports = router;
+

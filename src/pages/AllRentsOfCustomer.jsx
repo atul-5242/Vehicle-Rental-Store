@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { SingleUserDetails, UserDetails } from '../services/operations/AdminCalls'
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -42,7 +43,7 @@ const AllRentsOfCustomer = () => {
         <table className='text-black '>
     {
         variable1.map((val,index)=>
-            <tr className='flex text-black gap-16 text-base p-4 border-b  w-[1100px]'>
+            <tr className='flex text-black gap-16 text-base p-4 border-b  w-[1100px]' key={index}>
                      <td>{index + 1}</td>
                     <td className='max-w-[100px] flex flex-wrap'>{val.firstName} {" "} {val.lastName}</td>
                     <td className=''>{val.email}</td>
