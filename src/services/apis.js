@@ -1,15 +1,3 @@
-// // yhn par kin se link pe call karne jana hai wo sab kuch mention hoga.
-
-// const BASE_URL = process.env.REACT_APP_BASE_URL
-// console.log("??????????????????????????",process.env);
-
-// console.log("------------------",BASE_URL)
-// console.log("first",catogories?.CATEGORIES_API)
-// //http://localhost:4000/api/v1/course/showAllCategorys
-
-
-
-
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 
@@ -25,8 +13,9 @@ export const endpoints = {
 
 // Vehical payment ENDPOINTS
 export const PaymentEndPoint = {
-  COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
-  COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+  VEHICAL_PAYMENT_API: BASE_URL + "/payment/capturePayment",
+  VEHICAL_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+  SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
 }
 
 
@@ -36,7 +25,10 @@ export const VehicalDataEndPoints = {
   VEHICAL_CREATE: BASE_URL + "/vehical/createVehical",
   VEHICAL_READ: BASE_URL + "/vehical/getAllVehical",
   VEHICAL_A_READ: BASE_URL + "/vehical/get_A_Vehical",
-  
+  RENTED_VEHICAL: BASE_URL + "/vehical/Rented_Vehical",
+  USER_DETAILS:BASE_URL+"/vehical/userdetails",
+  SINGLE_USER_DETAILS:BASE_URL+"/Vehical/singleUser",
+  Approved:BASE_URL+"/vehical/Approved"
 }
 // Vehical Verification
 export const VehicalDocVerification = {

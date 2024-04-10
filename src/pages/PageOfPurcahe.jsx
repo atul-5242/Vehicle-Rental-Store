@@ -3,14 +3,19 @@ import ImageCar from '../data/Images/R.jpeg'
 import { Link,useParams  } from 'react-router-dom'
 import { get_A_Vehical } from '../services/operations/AdminCalls';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+
 const PageOfPurcahe = () => {
     const { id } = useParams();
     console.log("PPPPPPPPP",id)
     const dispatch = useDispatch()
+    const {user}=useSelector((state)=>state.profile);
+    console.log("#42...........................................",user.additionalDetails.aadharCard==null)
+    // let additionalDetails=user
+    let additionalDetails=user.additionalDetails.aadharCard==null;
     const [variablehere,setVariablehere]=useState([]);
-     useEffect(() => {
+    useEffect(() => {
     const getVehical_ = async () => {
         console.log("Hii there")
         let res = await dispatch(get_A_Vehical(id));
@@ -45,12 +50,17 @@ const PageOfPurcahe = () => {
             </div>
             <div className='font-bold text-lg'>Price:{variablehere?.Price}</div>
             <div>
-                <Link to={'/purchaseForm'}>
+                {/* <Link to={`${additionalDetails?}/MainPaymentPage/${id}:/purchaseForm/${variablehere?._id}`}>
                 <button className="p-5 px-10 shadow-2xl hover:scale-95 shadow-black bg-black font-semibold text-white hover:bg-richblack-5 duration-400 transition-all hover:text-black  rounded-md">
                 Rent It 
             </button>
-                </Link>
-           
+                </Link> */}
+            <Link to={additionalDetails ? `/purchaseForm/${variablehere?._id}` : `/MainPaymentPage/${variablehere?._id}`}>
+                <button className="p-5 px-10 shadow-2xl hover:scale-95 shadow-black bg-black font-semibold text-white hover:bg-richblack-5 duration-400 transition-all hover:text-black rounded-md">
+                    Rent It
+                </button>
+            </Link>
+
             </div>
         </div>
     </div>

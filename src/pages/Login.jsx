@@ -1,4 +1,4 @@
-import loginImg from "../assets/Images/login.webp"
+
 import Template from "../components/cores/Auth/Template"
 
 function Login() {
@@ -7,7 +7,7 @@ function Login() {
       title="Welcome Back"
       description1=""
       description2=""
-      image={loginImg}
+      
       formType="login"
     />
   )

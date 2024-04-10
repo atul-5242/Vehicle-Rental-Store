@@ -1,5 +1,5 @@
 {
-  "name": "react-tailwind-css-starter-pack",
+  "name": "Vehical-Rental-Store",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,19 +17,12 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.22.1",
     "react-scripts": "^5.0.1",
+    "react-toastify": "^10.0.5",
     "react-type-animation": "^3.0.1",
     "redux-toolkit": "^1.1.2",
     "stream-http": "^3.2.0",
     "swiper": "^9.3.2",
     "web-vitals": "^2.1.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
-  },
-  "author": "Pranay Gupta",
-  "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
   },
   "scripts": {
     "start": "react-scripts start",

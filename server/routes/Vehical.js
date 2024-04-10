@@ -6,6 +6,7 @@ const router = express.Router();
 const Vehical = require('../models/VehicalCreation'); // Import your Mongoose model
 const Verification = require('../models/VerificationDetails'); // Import your Verification model
 const User = require('../models/User');
+const { default: mongoose } = require('mongoose');
 const cloudinary=require("cloudinary").v2;
 function isFileTypeSupported(type,supportedType){
     return supportedType.includes(type);
@@ -13,20 +14,18 @@ function isFileTypeSupported(type,supportedType){
 
 async function uploadFiletoCloudinary(file,folder,quality){
     const options={folder};
-
     if (quality) {
         options.quality=quality;
     }
-
     options.resource_type="auto"
     return await cloudinary.uploader.upload(file.tempFilePath,options)
 }
 // Vehical Creation
-router.post('/createVehical',auth, async (req, res) => {
+router.post('/createVehical', async (req, res) => {
     // console.log("Function called.....................................",req.user.id)
   try {
     const { Name, Price, Type, Description } = req.body;
-    console.log("Request",req.user.id)
+    // console.log("Request",req.user.id)
     const file = req.files.VHIMG;
     console.log("Image-------------",Name, Price, Type, Description,file);
 
@@ -63,16 +62,17 @@ router.post('/createVehical',auth, async (req, res) => {
     // );
     
    
-    res.status(201).json({ success: true, vehical: newVehical });
+    res.status(200).json({ success: true, vehical: newVehical });
   } catch (error) {
-    res.status(500).json({ success: false, message:` Error aya hai.${error.message}` });
+    res.status(500).json({ success: false, message:`Error aya hai.${error.message}` });
   }
 });
 
 // Vehical Read
-router.get('/getAllVehical', async (req, res) => {
+router.get('/getAllVehical',auth,async (req, res) => {
+  // console.log("first->>>>>>>>>>>}}}}}}}}}}",req.user)
   try {
-    console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+    // console.log("Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",req.user)
     
     const allVehicals = await Vehical.find({});
     
@@ -94,23 +94,149 @@ router.get('/get_A_Vehical', async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 });
-
-// Vehical Document Verification
-router.post('/docVerifycreate', async (req, res) => {
+// Rented Vehical:-
+router.get('/Rented_Vehical',auth, async (req, res) => {
+  let verificationId=req.user.id;
+  
+  console.log("DEEEPPPPPPP",verificationId)
   try {
-    const { aadharCard, drivingLicence, photograph, phoneNumber } = req.body;
-    const newVerification = new Verification({
-      aadharCard,
-      drivingLicence,
-      photograph,
-      phoneNumber,
-    });
-
-    const savedVerification = await newVerification.save();
-    res.status(201).json({ success: true, verification: savedVerification });
+    const UserDetails_Rented = await User.findById(verificationId).populate("RentedVehical"); // assuming Vehicle is your Mongoose model
+    
+    return res.status(200).json({ success: true,  UserDetails_Rented });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+// Vehical Document Verification
+router.post('/docVerifycreate',auth, async (req, res) => {
+  try {
+    console.log("Cute",req.files);
+    const aadharCard=req.files.aadharCard
+    const drivingLicence=req.files.drivingLicence;
+    const photograph=req.files.photograph
+    const phoneNumber=req.body.phoneNumber;
+    console.log("first",req.body.phoneNumber)
+
+
+
+     // file formate is supported.
+     const response_aadharCard =  await uploadFiletoCloudinary(aadharCard,"codehelp");
+     const response_drivingLicence =  await uploadFiletoCloudinary(drivingLicence,"codehelp");
+     const response_photograph =  await uploadFiletoCloudinary(photograph,"codehelp");
+     
+    // const { aadharCard, drivingLicence, photograph, phoneNumber } = req.body;
+    // const newVerification = await Verification.findByIdAndUpdate({
+    //   aadharCard:response_aadharCard.secure_url,
+    //   drivingLicence:response_drivingLicence.secure_url,
+    //   photograph:response_photograph.secure_url,
+    //   phoneNumber:phoneNumber,
+    // });
+    // console.log("Id}}}}}}}}}}}}}}}}}}}}}}",req.user)
+    let verificationId=req.user.id;
+    let userDetails = await User.findById(verificationId);
+    // 65e9d59da4e4e07fb1690247
+    console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",(userDetails.additionalDetails).toString());
+    console.log("response_aadharCard",response_aadharCard)
+    const newVerification = await Verification.findByIdAndUpdate(
+      (userDetails.additionalDetails).toString(), 
+        {
+          aadharCard: response_aadharCard.secure_url,
+          drivingLicence: response_drivingLicence.secure_url,
+          phoneNumber: phoneNumber,
+          photograph: response_photograph.secure_url,
+        },
+      { new: true }
+    );
+
+    
+    res.status(200).json({ success: true, verification: newVerification });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+
+
+
+
+
+
+
+
+// User Details
+router.get('/userdetails', async (req, res) => {
+  try {
+
+    let userDetails = await User.find({accountType:"Customer"});
+    res.status(200).json({ success: true, Users: userDetails });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+
+
+router.get('/singleUser', async (req, res) => {
+  try {
+    const {id}= req.query
+    let userDetails1 = await User.find({_id:id}).populate("RentedVehical").populate("additionalDetails").exec();
+    res.status(200).json({ success: true, Users: userDetails1 });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
   }
 });
 
 module.exports = router;
+
+
+
+
+router.post('/Approved', async (req, res) => {
+  try {
+    const {id,vehicalId}= req.query
+    // const VehicalApproved = await User.findByIdAndUpdate(id,
+    //   {$push:{
+    //     ApprovedVehical:  vehicalId
+    //   }},{new:true})
+
+
+    //   // const VehicalRentApproved = await User.findByIdAndUpdate(id,
+    //   //   {$push:{
+    //   //     RentedVehical:vehicalId}},{new:true})
+    //   const VehicalPendingDel = await User.findByIdAndUpdate(id, {
+    //     $pull: { PendingVehical: vehicalId }
+    // }, { new: true });
+
+    const VehicalApprovedAndPendingDel = await User.findByIdAndUpdate(id,
+      {
+        $push: { ApprovedVehical: vehicalId },
+        $pull: { PendingVehical: vehicalId }
+      },
+      { new: true }
+    );
+    res.status(200).json({ success: true, UserDetails: VehicalApprovedAndPendingDel });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+
+router.post('/decline', async (req, res) => {
+  try {
+    const {id,vehicalId}= req.query
+
+    const VehicalApprovedAndPendingDel = await User.findByIdAndUpdate(id,
+      {
+        $push: { DeclinedVehical: vehicalId },
+        $pull: { PendingVehical: vehicalId }
+      },
+      { new: true }
+    );
+    res.status(200).json({ success: true, UserDetails: VehicalApprovedAndPendingDel });
+  } catch (error) {
+    res.status(500).json({ success: false, message:` This is error:${error.message} `});
+  }
+});
+
+module.exports = router;
+

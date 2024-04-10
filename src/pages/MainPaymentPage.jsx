@@ -1,18 +1,19 @@
 import React from 'react'
-import { buyPayment } from '../services/operations/PaymentsCall';
+import { buyVehical } from '../services/operations/PaymentsCall';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const MainPaymentPage = () => {
+  
 
     const {user} = useSelector((state)=>state.profile);
     const {token} = useSelector((state)=>state.auth);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const {courseId}  = useParams();
+    const {VehicalId}  = useParams();
     const handlePayment = () => {
         if(token) {
-          buyPayment(navigate) ;
+          buyVehical(token, [VehicalId], user, navigate, dispatch) ;
             return;
         }
     }

@@ -1,4 +1,4 @@
-import signupImg from "../assets/Images/signup.webp"
+
 import Template from "../components/cores/Auth/Template"
 
 function Signup() {
@@ -7,7 +7,7 @@ function Signup() {
       title="Lets join with us"
       description1=""
       description2=""
-      image={signupImg}
+
       formType="signup"
     />
   )

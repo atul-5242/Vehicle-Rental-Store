@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { FaBox } from "react-icons/fa";
 import useOnClickOutside from "../../../hooks/useOnClickOutside"
 import { logout } from "../../../services/operations/authAPI"
+import { setIshover } from "../../../slices/authSlice"
 
 export default function ProfileDropdown() {
   const { user } = useSelector((state) => state.profile)
@@ -67,10 +68,22 @@ export default function ProfileDropdown() {
               </Link> 
                 )
             }
+            {
+                
+                user.accountType==="Admin"?(
+                  <Link to="/dashboard/allCustomerRent" onClick={() => setOpen(false)}>
+                <div className="flex w-full left-0 -translate-x-4 gap-x-1 py-[10px] px-[30px] text-sm  text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">
+                <FaBox className="text-lg" />
+                  Customers<span>Details</span>
+                </div>
+              </Link> 
+                ):(<span></span>)
+            }
            
           <div
             onClick={() => {
-              dispatch(logout(navigate))
+              dispatch(logout(navigate));
+              setIshover(false);
               setOpen(false)
             }}
             className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25"

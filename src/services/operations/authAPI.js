@@ -1,7 +1,5 @@
 import { toast } from "react-hot-toast"
-
-import { setLoading, setToken } from "../../slices/authSlice"
-import { resetCart } from "../../slices/cartSlice"
+import { setIshover, setLoading, setToken } from "../../slices/authSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { endpoints } from "../apis"
@@ -9,7 +7,7 @@ import { endpoints } from "../apis"
 const {
   SENDOTP_API,
   SIGNUP_API,
-  LOGIN_API,
+  LOGIN_API,  
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
@@ -108,7 +106,7 @@ export function login(email, password, navigate) {
         ? response.data.user.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
       dispatch(setUser({ ...response.data.user, image: userImage }))
-      localStorage.setItem("token", JSON.stringify(response.data.token))
+      sessionStorage.setItem("token", JSON.stringify(response.data.token))
       navigate('/dashboard/home-page')
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -177,11 +175,12 @@ export function logout(navigate) {
   return (dispatch) => {//redux-thunk
     dispatch(setToken(null))
     dispatch(setUser(null))
-    dispatch(resetCart())
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("user")
     toast.success("Logged Out")
     navigate("/")
+    setIshover(false);
+    window.location.reload()
   }
 }
 

@@ -3,7 +3,7 @@ import { VehicalDataEndPoints } from "../apis";
 import { apiConnector } from "../apiconnector";
 import rzpLogo from "../../data/Images/carlogo1.jpg"
 // import { setPaymentLoading } from "../../slices/courseSlice";
-import { resetCart } from "../../slices/cartSlice";
+
 
 import { PaymentEndPoint } from "../apis";
 
@@ -124,7 +124,7 @@ import { PaymentEndPoint } from "../apis";
 
 
 // const {COURSE_PAYMENT_API,COURSE_VERIFY_API} = PaymentEndPoint;
-const {COURSE_PAYMENT_API,COURSE_VERIFY_API} = PaymentEndPoint;
+const {VEHICAL_PAYMENT_API,VEHICAL_VERIFY_API,SEND_PAYMENT_SUCCESS_EMAIL_API} = PaymentEndPoint;
 function loadScript(src) {
     return new Promise((resolve) => {
         const script = document.createElement("script");
@@ -141,7 +141,23 @@ function loadScript(src) {
 }
 
 
-export async function buyPayment(navigate) {
+async function sendPaymentSuccessEmail(response, amount, token) {
+    console.log("Tokken Here PPPP:->",token)
+    try{
+        await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API, {
+            orderId: response.razorpay_order_id,
+            paymentId: response.razorpay_payment_id,
+            amount,
+        },{
+            Authorization: `Bearer ${token}`,
+        })
+    }
+    catch(error) {
+        console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+    }
+}
+
+export async function buyVehical(token, VehicalId, userDetails, navigate, dispatch) {
     const toastId = toast.loading("Loading...");
     try{
         //load the script
@@ -153,7 +169,11 @@ export async function buyPayment(navigate) {
         }
 
         //initiate the order
-        const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API)
+        const orderResponse = await apiConnector("POST", VEHICAL_PAYMENT_API,
+        {VehicalId},
+                                {
+                                    Authorization: `Bearer ${token}`,
+                                })
 
         if(!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
@@ -163,17 +183,19 @@ export async function buyPayment(navigate) {
         const options = {
             key: "rzp_test_XToHNGFyYidB0m",
             currency: orderResponse.data.message.currency,
-            amount: 200,
+            amount: `${orderResponse.data.message.amount}`,
             order_id:orderResponse.data.message.id,
-            name:"PaymentGateWay",
+            name:"Vehical Rental",
             description: "Thank You.",
-            image:"https://logos-world.net/wp-content/uploads/2020/04/Instagram-icon-Logo-2016-present.png",
+            image:"https://res.cloudinary.com/dhhx2qn2o/image/upload/v1705729804/codehelp/nv4fjek7vsvcmpzixcps.jpg",
             prefill: {
-                name:"Atul Maurya",
-                email:"atul.fzdlko2001@gmail.com"
+                name:`${userDetails.firstName}`,
+                email:userDetails.email
             },
             handler: function(response) {
-                verifyPayment({...response},navigate);
+                console.log("Token in the fun:",token)
+                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+                verifyPayment({...response, VehicalId}, token, navigate, dispatch);
                 // console.log("first")
             }
         }
@@ -209,24 +231,24 @@ export async function buyPayment(navigate) {
 // }
 
 //verify payment
-async function verifyPayment(bodyData,navigate) {
-    
-
+async function verifyPayment(bodyData, token, navigate, dispatch) {
     const toastId = toast.loading("Verifying Payment....");
-    // dispatch(setPaymentLoading(true));
     try{
-        const response  = await apiConnector("POST", COURSE_VERIFY_API,bodyData)
+        console.log("New are here",bodyData);
+        const response  = await apiConnector("POST", VEHICAL_VERIFY_API,bodyData,
+        {
+            Authorization:`Bearer ${token}`,
+        })
         console.log("Backebd response",response);
         if(!response.data.success) {
             throw new Error(response.data.message);
         }
-        toast.success("payment Successful, you are addded to the course");
-        navigate("/dashboard/Store");
+        toast.success("payment Successful, You Rented the Vehical.");
+        navigate("/dashboard/rented_item");
     }   
     catch(error) {
         console.log("PAYMENT VERIFY ERROR....", error);
         toast.error("Could not verify Payment");
     }
     toast.dismiss(toastId);
-    // dispatch(setPaymentLoading(false));
 }

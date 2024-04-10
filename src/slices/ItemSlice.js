@@ -1,18 +1,18 @@
 import {createSlice} from "@reduxjs/toolkit"
 
 const initialState = {
-    dataofItem:null,
+    dataofVehical:null,
 };
 
 const ItemSlice = createSlice({
     name:"item",
     initialState: initialState,
     reducers: {
-        setdataofItem(state, value) {
-            state.dataofItem = value.payload;
+        setdataOfVehical(state, value) {
+            state.dataofVehical = value.payload;
         },
     },
 });
 
-export const {setdataofItem} = ItemSlice.actions;
+export const {setdataOfVehical} = ItemSlice.actions;
 export default ItemSlice.reducer;

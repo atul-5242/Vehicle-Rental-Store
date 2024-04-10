@@ -10,20 +10,26 @@ import {apiConnector} from '../../services/apiconnector';
 import {catogories} from '../../services/apis';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {setIshover} from '../../slices/authSlice';
 // import {  useNavigate } from "react-router-dom"
 // import { logout } from '../../services/operations/authAPI';
 import { setUser } from '../../slices/profileSlice';
 import { IoIosArrowDown } from "react-icons/io";
 
+   
+
+
+
 
 const NavBar = () => {
+
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
-
+    
     const {token} = useSelector( (state) => state.auth );
     const {user} = useSelector( (state) => state.profile );
     // const {totalItems} = useSelector( (state) => state.cart )
-    // console.log("USER...................",user)
+    // console.log("USER...................>>>>>>>>>>>>>>>>>>>>>>",user)
     const location = useLocation();
     const matchRoute = (route)=>{
         return matchPath({path:route},location.pathname)
@@ -52,18 +58,23 @@ const NavBar = () => {
     //     }
     // }, [dispatch, user]); // Include fetchSubLinks in the dependency array
 
-
-
-
+    
+    const {ishover} = useSelector( (state) => state.auth );
     return (
-        <div className='flex items-center pt-2 pb-2 gap-42 text-white justify-around '>
+        <div className='z-50 flex items-center pt-2 pb-2 gap-42 text-white justify-around '
+        onMouseEnter={() =>{
+            dispatch(setIshover(true))
+            console.log("Someevent occured",ishover)
+        } }
+        onMouseLeave={() =>dispatch(setIshover(false)) }
+        >
             {/* Image */}
             {/* {console.log("Length----------",subLinks.length)}
             { */}
             {/* // console.log("4252:",subLinks)} */}
             <div className='flex '>
                 {/* Part 1 */}
-                <div className='z-10'>
+                <div className='z-20'>
                     <Link to={"/"} className=''>
                     
                         <img loading='lazy' src={ImageLogo} alt=""  className=' w-20 flex items-center -translate-x-48' />
@@ -75,14 +86,14 @@ const NavBar = () => {
                     {/* LI link */}
              {/* 1 */}      
 
-                            <div className='relative group hover:cursor-pointer'>
-                            <div className='flex items-center gap-1' onClick={() => setOpen(false)}>Who we are <IoIosArrowDown className='group-hover:-rotate-180 transition-all duration-500' /></div>
+                            <div className='relative group hover:cursor-pointer '>
+                            <div className='flex items-center gap-1' onClick={() => setOpen(false)}>Who we are <IoIosArrowDown className='group-hover:-rotate-180 transition-all duration-500 ' /></div>
                             
                             <div className='absolute right-0 w-0 h-[1px] bg-blue-500 transition-all duration-500 overflow-hidden group-hover:w-full'></div>
 
-                            <div className='invisible absolute text-black z-0 items-center shadow-2xl shadow-richblack-25
-                                opacity-0 transition-all duration-200 group-hover:visible flex justify-evenly
-                                group-hover:opacity-100 w-[1600px] translate-y-1 -translate-x-36 h-[150px] bg-richblack-5'>
+                            <div className='invisible absolute text-black z-10 items-center shadow-2xl shadow-richblack-25
+                                opacity-0 transition-all duration-200 group-hover:z-50 group-hover:visible flex justify-evenly
+                                group-hover:opacity-100 w-[1600px] translate-y-1 -translate-x-36 h-[100px] bg-richblack-5'>
                                     <div className='relative group/edit'>
                                         Our actions
                                     <div className='absolute right-0 w-0 h-[1px] bg-blue-500 transition-all duration-500 overflow-hidden group-hover/edit:w-full'></div>
@@ -109,7 +120,7 @@ const NavBar = () => {
 
                             <div className='invisible absolute text-black z-0 items-center shadow-2xl shadow-richblack-25
                                 opacity-0 transition-all duration-200 group-hover:visible flex justify-evenly
-                                group-hover:opacity-100 w-[1600px] translate-y-1 -translate-x-64 h-[150px] bg-richblack-5'>
+                                group-hover:opacity-100 w-[1600px] translate-y-1 -translate-x-64 h-[100px] bg-richblack-5'>
                                     <div className='relative group/edit'>
                                         Our actionsnp
                                     <div className='absolute right-0 w-0 h-[1px] bg-blue-500 transition-all duration-500 overflow-hidden group-hover/edit:w-full'></div>

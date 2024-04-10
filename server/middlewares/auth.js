@@ -11,13 +11,13 @@ exports.auth = async (req,res,next)=>{
                                 || req.body.token 
                                 || req.header("Authorization").replace("Bearer ","");
         // if token is missing , then retuen the response
+        console.log("token",token)
         if (!token) {
             return res.status(401).json({
                 success:false,
                 message:"Token is missing",
             });
         }
-        console.log("token",token)
         // verify the token
         try {
             const decode = jwt.verify(token,process.env.JWT_SECRET);
@@ -27,14 +27,14 @@ exports.auth = async (req,res,next)=>{
             // verification -issue
             return res.status(401).json({
                 success:false,
-                message:"Token is invalid",
+                message:`Token is invalid :${error.message}`,
             });
         }
         next();
     } catch (error) {
         return res.status(401).json({
             success:false,
-            message:"Something went wrong while valdating the token.",
+            message:`Something went wrong while valdating the token.${error.message}`,
         });
     }
 }
