@@ -31,7 +31,7 @@ exports.resetPasswordToken = async (req,res)=>{
         ); 
         console.log("DETAILS", updatedDetails);
         // create url 
-        const url = `http://localhost:3000/reset-password/${token}`;//this will become a different frontend 
+        const url = `http://localhost:3000/https://vehical-rental-store-indol.vercel.app/reset-password/${token}`;//this will become a different frontend 
         // link based on the different value of frontend link. 
         
         
