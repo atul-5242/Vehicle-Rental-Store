@@ -23,4 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 MySecurity
+<<<<<<< HEAD
 MySecurity.pub
+=======
+MySecurity.pub
+>>>>>>> a672dd48978a859f086eac110f08f3a15149ae2f

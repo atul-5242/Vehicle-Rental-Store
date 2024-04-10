@@ -82,6 +82,7 @@ const Home = () => {
                   {/* right */}
                   <div className="flex flex-col w-[40rem] gap-6 text-white">
                       <div>
+                        
                     <li> Inception and Establishment: RentalStore was born
                     out of a vision for providing unparalleled mobility solutions.
                     Established in 2001.</li> 
