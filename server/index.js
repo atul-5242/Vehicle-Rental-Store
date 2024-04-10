@@ -26,10 +26,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin:"https://vehical-rental-store.vercel.app",
-        credentials:true,//Seach about It HW
+        origin: ["https://vehical-rental-store.vercel.app", "https://vehical-rental-store-indol.vercel.app"],
+        credentials: true,
     })
 )
+
 
 app.use(
     fileUpload({
