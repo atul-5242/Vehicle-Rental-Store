@@ -31,9 +31,9 @@ const UserPage = () => {
     useEffect(() => {
     const getAllVehical_ = async () => {
         console.log("Hii there")
-        let a=(dataofVehical)?1:await dispatch(getAllVehical(token));
-        console.log("Data comes from:->",a);
-        res = (dataofVehical)?dataofVehical:await dispatch(getAllVehical(token));
+        // let a=(dataofVehical)?1:await dispatch(getAllVehical(token));
+        // console.log("Data comes from:->",a);
+        res = await dispatch(getAllVehical(token));
         setVariablehere(res?.data?.allVehicals)
         console.log("Respose:----------->>>>>>>>>",res);
     }

@@ -50,7 +50,7 @@ export const getAllVehical = (token) => {
       });
   
         console.log("GET ALL VEHICALS API RESPONSE............", response);
-        sessionStorage.setItem("dataOfVehical", JSON.stringify(response));
+        // sessionStorage.setItem("dataOfVehical", JSON.stringify(response));
         // dispatch(setdataOfVehical(response));
         if (!response.data.success) {
           throw new Error(response.data.message);

@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit"
 
 const initialState = {
-    dataofVehical:sessionStorage.getItem("dataOfVehical")?JSON.parse(sessionStorage.getItem("dataOfVehical")):null,
+    dataofVehical:null,
 };
 
 const ItemSlice = createSlice({

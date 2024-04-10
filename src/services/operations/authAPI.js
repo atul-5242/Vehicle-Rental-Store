@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast"
-
-import { setLoading, setToken } from "../../slices/authSlice"
+import { setIshover, setLoading, setToken } from "../../slices/authSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { endpoints } from "../apis"
@@ -180,6 +179,8 @@ export function logout(navigate) {
     sessionStorage.removeItem("user")
     toast.success("Logged Out")
     navigate("/")
+    setIshover(false);
+    window.location.reload()
   }
 }
 
