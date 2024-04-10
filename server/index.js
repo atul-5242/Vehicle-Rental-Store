@@ -26,8 +26,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin:"https://vehical-rental-store.onrender.com",
-        
+        origin:"https://vehical-rental-store.vercel.app",
+        credentials:true,//Seach about It HW
     })
 )
 
