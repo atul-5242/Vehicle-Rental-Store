@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(
     cors({
         origin:"https://vehical-rental-store.vercel.app",
-        credentials:false,//Seach about It HW
+
     })
 )
 
