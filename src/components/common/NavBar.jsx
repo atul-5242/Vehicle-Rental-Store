@@ -22,6 +22,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 
 const NavBar = () => {
+
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
     
@@ -57,7 +58,7 @@ const NavBar = () => {
     //     }
     // }, [dispatch, user]); // Include fetchSubLinks in the dependency array
 
-
+    
     const {ishover} = useSelector( (state) => state.auth );
     return (
         <div className='z-50 flex items-center pt-2 pb-2 gap-42 text-white justify-around '
