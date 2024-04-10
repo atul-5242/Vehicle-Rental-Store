@@ -27,7 +27,7 @@ app.use(cookieParser());
 app.use(
     cors({
         origin:"https://vehical-rental-store.onrender.com",
-        credentials:true,//Seach about It HW
+        
     })
 )
 
