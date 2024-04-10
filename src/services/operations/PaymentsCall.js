@@ -181,7 +181,7 @@ export async function buyVehical(token, VehicalId, userDetails, navigate, dispat
         console.log("PRINTING orderResponse", orderResponse);
         //options
         const options = {
-            key: "rzp_test_XToHNGFyYidB0m",
+            key: process.env.RAZORPAY_KEY,
             currency: orderResponse.data.message.currency,
             amount: `${orderResponse.data.message.amount}`,
             order_id:orderResponse.data.message.id,
