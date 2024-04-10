@@ -76,6 +76,7 @@ const Home = () => {
                       <div className="w-28 translate-x-6 bg-white h-1"></div>
                       </div>
 
+
                           <img src={image12} alt="" className="w-[28rem] rounded-xl mt-10 shadow-2xl shadow-white" />
                   </div>
                   {/* right */}
