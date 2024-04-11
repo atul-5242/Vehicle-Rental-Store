@@ -25,7 +25,10 @@ database.connect();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-    cors()
+    cors({
+        origin: ["https://vehical-rental-store.vercel.app", "https://vehical-rental-store-indol.vercel.app"],
+        credentials: true,
+    })
 )
 
 
