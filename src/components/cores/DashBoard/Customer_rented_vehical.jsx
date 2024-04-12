@@ -167,12 +167,12 @@ const CustomerRentedVehicles = () => {
                         {
                           approvedArray.includes(`${vehicle._id}`) ? (
 
-                              <div>Approved</div>
+                              <div className='h-8 w-24 text-center bg-richblack-700 text-white'>Approved</div>
 
                            
                           ) :declineArray.includes(`${vehicle._id}`)?(
 
-                            <div>DEclined</div>
+                            <div className='h-8 w-24 text-center bg-richblack-700 text-white'>Declined</div>
                             
                                                        
                                                       ) : (

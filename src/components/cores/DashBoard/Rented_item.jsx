@@ -54,35 +54,37 @@ const Rented_item = () => {
 
 
       {/* Both */}
-              <div className={`${toggle?"bg-white":"bg-[#F1F2FF]"} justify-center flex w-[1000px] transition duration-1000
+<div className={`${toggle?"bg-white":"bg-[#F1F2FF]"} justify-center flex w-[1000px] transition duration-1000
               rounded-3xl p-10  ${toggle ? 'fixed top-0 z-10' : ''} ml-56 ${toggle?'mt-40':'mt-0'} z-${toggle?"10":"0"} ${toggle?"visible":"invisible"}`}>
-      
+      {
+        console.log("rentedVehicalSpecififc>>>>>>>>>>",rentedVehicalSpecififc?.data?.vehicle?._id)
+      }
         <div className="flex gap-5">
           {/* Image  */}
           <div>
-            <img src={rentedVehicalSpecififc?.data?.vehicle
-?.VehicalImage} alt="" className="w-[50rem]" />
+            <img src={rentedVehicalSpecififc?.data?.vehicle?.VehicalImage} alt="" className="w-[50rem]" />
           </div>
           {/* right */}
           <div>
-            <div>
+            <div className="text-3xl font-semibold">
             {rentedVehicalSpecififc?.data?.vehicle
 ?.Name}
             </div>
-            <div className="w-44">
+            <div className="w-72 h-48 mb-2 mt-10 overflow-auto">
               
                 {rentedVehicalSpecififc?.data?.vehicle
                   ?.Description
               }
               {/* Description */}
             </div>
-            <div>
+            <pre className="flex gap-0 ">
+              <div>Price: </div>
               {rentedVehicalSpecififc?.data?.vehicle
                   ?.Price
-              }
-            </div>
+              }<p> RS</p>
+            </pre>
             <div>
-              Purchased Date
+              Status: {approved.includes(rentedVehicalSpecififc?.data?.vehicle?._id)?<div>Approved</div>:decline.includes(rentedVehicalSpecififc?.data?.vehicle?._id)?<div>Decline</div>:<div>Pending</div>}
             </div>
           </div>
         </div>
@@ -123,8 +125,8 @@ const Rented_item = () => {
                     <img src={val.VehicalImage} alt="" className="w-96" />
 
                       {
-                        approved.includes(val._id)?(<div>Approved</div>):
-                        decline.includes(val._id)?(<div>Decline</div>):
+                        approved.includes(val._id)?(<div  className='h-8 mt-5 mx-auto mb-4 w-24 text-center bg-richblack-700 text-white'>Approved</div>):
+                        decline.includes(val._id)?(<div  className='h-8 mt-5 mx-auto mb-4 w-24 text-center bg-richblack-700 text-white'>Decline</div>):
                         (<div>Pending</div>)
                       }
                       <button className="p-5 w-72 ml-10 px-10 shadow-2xl hover:scale-95 shadow-black bg-black font-semibold text-white hover:bg-richblack-5 duration-400 transition-all hover:text-black  rounded-md"
