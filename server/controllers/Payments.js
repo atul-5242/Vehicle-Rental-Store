@@ -328,7 +328,6 @@ const {instance} = require("../config/razorpay");
 const Vehical = require("../models/VehicalCreation");
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
-const {courseEnrollmentEmail} = require("../mail/courseEnrollmentEmail");
 const { default: mongoose } = require("mongoose");
 const { paymentSuccessEmail } = require("../mail/paymentSuccessEmail");
 const crypto = require("crypto");
