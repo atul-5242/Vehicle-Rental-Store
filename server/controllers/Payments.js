@@ -342,7 +342,7 @@ exports.capturePayment = async(req, res) => {
    
 
     let totalAmount = 0;
-    Vehical_Data = await Vehical.findById(VehicalId);
+    let Vehical_Data = await Vehical.findById(VehicalId);
     if(!Vehical_Data) {
         return res.status(200).json({success:false, message:"Could not find the Vehical Data"});
     }
