@@ -4,7 +4,7 @@ const otpTemplate = (otp) => {
 	
 	<head>
 		<meta charset="UTF-8">
-		<title>OTP Verification Email</title>
+		<title>OTP Verification - RideEasy</title>
 		<style>
 			body {
 				background-color: #ffffff;
@@ -66,22 +66,24 @@ const otpTemplate = (otp) => {
 	
 	<body>
 		<div class="container">
-			<a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
-					src="https://i.ibb.co/7Xyj3PC/logo.png" alt="StudyNotion Logo"></a>
-			<div class="message">OTP Verification Email</div>
+			<a href="https://vehiclestore.atulmaurya.in">
+				<img class="logo" src="https://res.cloudinary.com/dhhx2qn2o/image/upload/v1713259928/codehelp/ejuzsl6huxhjtmlg2fta.jpg" alt="RideEasy Logo">
+			</a>
+			<div class="message">OTP Verification - RideEasy</div>
 			<div class="body">
 				<p>Dear User,</p>
-				<p>Thank you for registering with StudyNotion. To complete your registration, please use the following OTP
-					(One-Time Password) to verify your account:</p>
+				<p>Welcome to <strong>RideEasy</strong> — your trusted vehicle rental partner. To continue with your registration, please use the OTP (One-Time Password) below to verify your account:</p>
 				<h2 class="highlight">${otp}</h2>
-				<p>This OTP is valid for 5 minutes. If you did not request this verification, please disregard this email.
-				Once your account is verified, you will have access to our platform and its features.</p>
+				<p>This OTP is valid for 5 minutes. If you did not initiate this request, you can safely ignore this email.</p>
+				<p>Once verified, you'll be able to book and manage vehicle rentals with ease through our platform.</p>
 			</div>
-			<div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
-					href="mailto:info@studynotion.com">info@studynotion.com</a>. We are here to help!</div>
+			<div class="support">Need help? Reach out to our support team at 
+				<a href="atul.fzdlko2001@gmail.com">atul.fzdlko2001@gmail.com</a>. We're here to assist you!
+			</div>
 		</div>
 	</body>
 	
 	</html>`;
 };
+
 module.exports = otpTemplate;
