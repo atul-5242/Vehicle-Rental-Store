@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: ["https://vehical-rental-store.vercel.app", "https://vehical-rental-store-indol.vercel.app"],
+        origin: ["https://vehical-rental-store.vercel.app", "https://vehical-rental-store-indol.vercel.app","http://localhost:3000","https://vehiclestore.atulmaurya.in"],
         credentials: true,
     })
 )

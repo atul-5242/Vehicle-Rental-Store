@@ -6,6 +6,8 @@ const otpGenerator=require("otp-generator");
 const jwt = require("jsonwebtoken");    
 require("dotenv").config(); 
 // const nodemailer = require('nodemailer'); // You also need the nodemailer library to send email notifications.
+const mailSender = require("../utils/mailSender");
+const passwordUpdated = require("../utils/passwordUpdate");
 
 
 
@@ -126,12 +128,7 @@ exports.signUp = async (req,res)=>{
 
         console.log("RecentOTP:---------->",recentOTP);
         // validation OTP:-
-        if (recentOTP.length==0) {
-            return res.status(400).json({
-                success:false,
-                message:"OTP found",
-            });
-        }else if(otp!==recentOTP.otp){
+        if(otp!==recentOTP.otp){
             // Invaild OTP:-
             return res.status(400).json({
                 success:false,
